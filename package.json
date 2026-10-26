@@ -1,0 +1,30 @@
+{
+  "name": "generator-ton-username",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "bin": { "generator-ton": "bin/generator-ton.mjs" },
+  "peerDependencies": { "webgpu": "0.6.2" },
+  "peerDependenciesMeta": { "webgpu": { "optional": true } },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "node server.mjs",
+    "cli": "node bin/generator-ton.mjs",
+    "source:package": "node scripts/build-colab.mjs && node scripts/package-source.mjs",
+    "colab:build": "node scripts/build-colab.mjs",
+    "desktop:package": "node scripts/package-desktop.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@noble/hashes": "1.8.0",
+    "@ton/crypto": "3.3.0",
+    "bip39": "3.1.0",
+    "buffer": "6.0.3",
+    "libsodium-wrappers-sumo": "0.7.15"
+  },
+  "devDependencies": {
+    "@ton/ton": "16.0.0",
+    "esbuild": "0.25.12"
+  }
+}

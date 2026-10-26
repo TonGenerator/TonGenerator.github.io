@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+task_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+case "$(uname -m)" in x86_64) task_arch=x64;; aarch64|arm64) task_arch=arm64;; *) task_arch=unknown;; esac
+if [[ -x "$task_root/.runtime/node-linux-$task_arch/bin/node" ]]; then
+  export PATH="$task_root/.runtime/node-linux-$task_arch/bin:$PATH"
+fi
+command -v node >/dev/null || { printf '%s\n' 'Сначала выполни: bash scripts/install-linux.sh' >&2; exit 1; }
+exec node "$task_root/bin/generator-ton.mjs" "$@"

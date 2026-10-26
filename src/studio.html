@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#07070b">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self'; connect-src 'none'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="description" content="Новый WalletTg для Telegram или TON-кошелёк V4/V5 с красивым адресом. Генерация фразы и поиск на твоём устройстве.">
+  <title>GENERATOR TON USERNAME — генератор красивых TON-адресов</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./shell.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <header class="topnav">
+    <a class="brand" href="./" aria-label="GENERATOR TON USERNAME — главная"><span class="brand-icon">✦</span><span class="brand-name">GENERATOR TON USERNAME<small>TON · TELEGRAM · TONKEEPER</small></span></a>
+    <nav aria-label="Основное меню"><span class="nav-active">Генератор</span><button id="how-button">Как пользоваться</button><button id="audit-button">Безопасность ↗</button><a href="./install.html" target="_blank" rel="noopener">Установить ↓</a></nav>
+    <div class="header-tools"><button class="header-donate" type="button" data-donate>Донат ♥</button><div class="language-switch" role="group" aria-label="Язык"><button type="button" data-language="en" aria-pressed="false">EN</button><button type="button" data-language="ru" aria-pressed="true">RU</button></div></div>
+  </header>
+  <main>
+    <section class="intro">
+      <div class="eyebrow"><span>✦</span> НОВЫЙ КОШЕЛЁК. НОВЫЙ АДРЕС.</div>
+      <h1>Твой адрес.<br><em>Твои правила.</em></h1>
+      <p>Выбери любимое окончание. Мы создадим новый кошелёк<br class="desktop-br"> и найдём для него адрес с твоим характером.</p>
+      <div class="intro-facts"><span><i>✓</i> Слова только у тебя</span><span><i>✓</i> WalletTg · V4 · V5</span><span><i>✓</i> Полностью локально</span></div>
+    </section>
+    <aside class="compatibility-banner" aria-label="Совместимость кошелька"><strong id="compatibility-title">Telegram · WalletTg · 12 слов</strong><p id="compatibility-text">Новый WalletTg со стандартным ID Telegram. Старые результаты V4/V5 в этот формат не преобразуются.</p></aside>
+    <div class="workspace">
+      <section class="panel settings" aria-labelledby="settings-title">
+        <div class="section-heading"><h2 id="settings-title">Собери свой адрес</h2><span class="mini-badge">НОВЫЙ КОШЕЛЁК</span></div>
+        <form id="search-form" autocomplete="off" novalidate>
+          <fieldset id="settings-fields">
+            <div class="field-label"><label for="pattern">Твой текст</label><span id="pattern-length">3 / 8</span></div>
+            <div class="pattern-field"><span id="pattern-marker">…</span><textarea id="pattern" rows="2" maxlength="320" placeholder="_GAY, _FURRY, _FEMBOY" spellcheck="false" autocapitalize="off" autocomplete="off">_GAY, _FURRY, _FEMBOY</textarea><span class="input-star" aria-hidden="true">✧</span></div>
+            <p class="field-note">От 1 до 8 символов в шаблоне. Несколько — через запятую или с новой строки. Каждый адрес проверяем сразу по всем шаблонам.</p>
+            <div class="pattern-options"><div class="segmented" role="group" aria-label="Позиция текста"><button type="button" data-position="suffix" aria-pressed="true">В конце</button><button type="button" data-position="prefix" aria-pressed="false">В начале</button></div><label class="checkbox"><input type="checkbox" id="case-sensitive" checked><span>Точный регистр</span></label></div>
+            <div class="presets"><span>Например</span><button type="button" data-pattern="ton">ton</button><button type="button" data-pattern="777">777</button><button type="button" data-pattern="cafe">cafe</button><button type="button" data-pattern="_FURRY">_FURRY</button></div>
+            <div class="field-label version-label"><span id="version-label">Версия кошелька</span><span>TON</span></div>
+            <div class="version-choices" role="group" aria-labelledby="version-label">
+              <button type="button" data-contract="wallet-tg" aria-pressed="true"><span class="version-icon">➤</span><span><strong>Telegram <b>WalletTg</b></strong><small>12 слов · CPU / GPU</small></span><span class="radio-mark"></span></button>
+              <button type="button" data-contract="v4r2" aria-pressed="false"><span class="version-icon">◈</span><span><strong>V4R2</strong><small>Для Tonkeeper</small></span><span class="radio-mark"></span></button>
+              <button type="button" data-contract="v5r1" aria-pressed="false"><span class="version-icon">✦</span><span><strong>V5R1</strong><small>Современный</small></span><span class="radio-mark"></span></button>
+            </div>
+            <div id="mnemonic-settings" class="config-row"><label for="mnemonic-scheme">Сид-фраза Tonkeeper</label><select id="mnemonic-scheme"><option value="bip39-12-slip10-ed25519">12 слов BIP39 · быстрее</option><option value="ton-24">24 слова TON · классический</option></select></div>
+            <p id="strategy-note" class="field-note"></p>
+            <div class="engine-settings">
+              <div class="field-label"><label for="compute-engine">Режим поиска</label><span>CPU / GPU</span></div>
+              <select id="compute-engine" hidden tabindex="-1" aria-hidden="true"><option value="cpu">CPU</option><option value="gpu">GPU</option><option value="hybrid" selected>CPU + GPU</option></select>
+              <div class="engine-picker" role="radiogroup" aria-label="Режим поиска"><button type="button" role="radio" aria-checked="true" data-engine-value="cpu"><span>◈</span><strong>CPU</strong></button><button type="button" role="radio" aria-checked="false" data-engine-value="gpu"><span>✦</span><strong>GPU</strong></button><button type="button" role="radio" aria-checked="false" data-engine-value="hybrid"><span>⌁</span><strong>CPU + GPU</strong></button><button type="button" role="radio" aria-checked="false" data-engine-value="max"><span>ϟ</span><strong>MAX</strong></button></div>
+              <select id="performance-mode" hidden tabindex="-1" aria-hidden="true"><option value="adaptive">Обычный</option><option value="max">MAX</option></select><p id="max-note" class="field-note max-warning" hidden>MAX: CPU + GPU, все потоки и 100% активности. Может мешать работе ПК.</p>
+              <p class="field-note" id="gpu-availability"></p>
+              <a class="field-note" href="./gpu-check.html" target="_blank" rel="noopener">Проверить доступ к GPU →</a>
+              <div class="config-row" id="cpu-threads-row"><label for="threads">Потоки CPU</label><div class="thread-control"><input id="threads" type="range" min="1" max="24" value="4"><output id="thread-count" for="threads">4</output></div></div>
+            </div>
+            <details class="advanced"><summary>Дополнительные настройки <span>⌄</span></summary><div class="advanced-body">
+              <div class="config-row"><label for="address-format">Формат адреса</label><select id="address-format"><option value="uq">UQ · для пополнения</option><option value="eq">EQ · с возвратом</option></select></div>
+              <div class="config-row"><label for="network">Сеть</label><select id="network"><option value="mainnet">Mainnet</option><option value="testnet">Testnet</option></select></div>
+              <div class="performance-check"><button id="check-performance" type="button" class="small-button">Проверить скорость CPU</button><output id="performance-result">Замер проверяет только CPU. GPU запускается отдельным режимом поиска.</output></div>
+              <p class="field-note">Начало текста — после первых 4 символов. Окончание включает контрольную сумму.</p>
+            </div></details>
+            <div class="estimate"><span>◷</span><span id="estimate-text"></span></div>
+          </fieldset>
+          <div id="gpu-controls" class="gpu-controls" hidden>
+            <div class="config-row"><label for="gpu-load">Активность GPU</label><div class="thread-control"><input id="gpu-load" type="range" min="5" max="90" step="5" value="50"><output id="gpu-load-value" for="gpu-load">50%</output></div></div>
+            <p id="gpu-pacing-note" class="field-note">5–90% — доля работы с паузами. Показатель в диспетчере задач может отличаться. В фоне GPU на паузе.</p>
+            <button id="pause-gpu" class="small-button" type="button" hidden>Пауза GPU</button>
+            <button id="ignore-gpu-limit" class="small-button" type="button" hidden>Игнорировать лимит времени и продолжить</button>
+            <p id="gpu-limit-note" class="field-note" hidden>Лимит снимается до конца этого поиска. Компьютер может тормозить.</p>
+          </div>
+          <p id="form-error" class="form-error" role="alert" hidden></p>
+          <button id="start-button" class="primary-button" type="submit"><span id="start-label">Создать красивый кошелёк</span><span id="start-icon">↗</span></button>
+          <button id="pause-search" class="small-button full-pause" type="button" disabled>⏸ Пауза поиска</button><p id="queue-progress" class="field-note" aria-live="polite"></p>
+          <p class="button-note">♧ Сид-фразу создаёт твой браузер. Она никуда не отправляется.</p>
+        </form>
+      </section>
+      <div class="output-column">
+        <section class="address-card" aria-labelledby="preview-title">
+          <div class="address-top"><span id="preview-title">ТВОЙ БУДУЩИЙ АДРЕС</span><span id="status" class="status"><i></i><span>Готов к поиску</span></span></div>
+          <div id="address-preview" class="address-preview"><span>UQ··········································</span><mark>ton</mark></div>
+          <div class="preview-bottom"><span id="preview-contract">WalletTg · Mainnet</span><span id="preview-method">TELEGRAM · 12 СЛОВ · СТАНДАРТНЫЙ ID</span></div>
+          <div class="search-track"><div id="track-fill"></div></div>
+          <div class="track-caption"><span id="scan-caption">Поиск до совпадения</span><span id="probability-caption">Без ограничения одним ключом</span></div>
+        </section>
+        <section class="stats-panel" aria-label="Статистика поиска"><div><span>Проверено адресов</span><strong id="attempts">0</strong></div><div><span>Скорость</span><strong id="speed">—<small> / сек</small></strong></div><div><span>Время поиска</span><strong id="elapsed">00:00</strong></div><div><span>Создано сид-фраз</span><strong id="keys-count">0</strong></div></section>
+        <p id="engine-progress" class="engine-progress" hidden></p>
+        <aside id="long-search" class="long-search" hidden>Подбор может занять больше суток. Вы можете скачать программу и арендовать сервер с GPU для быстрого подбора. Скорость зависит от видеокарты, драйвера и шаблона. <a href="./install.html" target="_blank" rel="noopener">Установить и открыть гайд →</a></aside>
+        <section id="queue-results" class="panel" hidden><h2>Найденные кошельки</h2><p class="field-note">Секретные слова пока только в памяти вкладки. Скачай каждый JSON до закрытия страницы.</p><div id="queue-wallets"></div></section>
+        <section class="panel result-panel" aria-labelledby="result-title" aria-live="polite">
+          <div class="section-heading"><h2 id="result-title">Твой кошелёк</h2><span id="result-tag" class="mini-badge">12 СЛОВ</span></div>
+          <div id="empty-result" class="empty-result"><div class="empty-art" aria-hidden="true"><span class="empty-orbit"></span><span>✦</span><i>✧</i></div><h3>Хорошие адреса не случайны.<br><span>Хотя ищем мы их именно так.</span></h3><p id="empty-result-copy">Здесь появятся новый адрес WalletTg<br>и 12 слов для восстановления.</p></div>
+          <div id="found-result" hidden>
+            <div class="success-label"><span>✓</span> Кошелёк найден <small>Адрес проверен</small></div>
+            <code id="result-address" class="result-address"></code>
+            <div class="result-details"><div><span>Версия</span><strong id="result-version"></strong></div><div><span>walletID</span><strong id="result-id"></strong></div><button id="copy-address" type="button" class="small-button">Копировать адрес ↗</button></div>
+            <div id="recovery-note" class="recovery-note"></div>
+            <div class="seed-heading"><div><strong>Твоя сид-фраза</strong><span id="seed-format-label">12 слов · BIP39 · WalletTg</span></div><button id="reveal-seed" type="button" class="small-button">Показать слова</button></div>
+            <div id="seed-hidden" class="seed-hidden"><span>◈</span><p>Слова скрыты от посторонних глаз.<br><small>Показывай их только в приватной обстановке.</small></p></div>
+            <ol id="seed-words" class="seed-grid" hidden></ol>
+            <button id="copy-seed" type="button" class="copy-seed" hidden>Скопировать 12 слов</button>
+            <button id="save-wallet" type="button" class="save-wallet">↓ Сохранить кошелёк <small>JSON · содержит сид-фразу и walletID</small></button>
+            <p class="seed-warning">Сохрани резервную копию до закрытия вкладки. Здесь нет сервера восстановления. Копия содержит секретные слова — храни её в безопасном месте.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+    <section class="facts"><div><span>◇</span><div><h3>Без ввода старой сид-фразы</h3><p>Только новый кошелёк. Слова создаются<br>с помощью криптографии браузера.</p></div></div><div><span>⌁</span><div><h3>Всё остаётся у тебя</h3><p>Никаких сетевых API, аналитики<br>и загрузки сторонних скриптов.</p></div></div><div><span>✦</span><div><h3>Ищем до совпадения</h3><p>Автоматически создаём новые ключи.<br>Фиксированного срока поиска нет.</p></div></div></section>
+    <section class="seo-copy"><h2>Бесплатный генератор красивых TON-адресов</h2><p>GENERATOR TON USERNAME создаёт новые кошельки Telegram WalletTg и Tonkeeper V4R2 / V5R1. Выбери окончание или начало адреса, CPU, GPU или совместный поиск. Каждый адрес одновременно проверяется по всем шаблонам. После совпадения поиск продолжается по оставшимся.</p><p>Генерация в браузере выполняется на твоём устройстве. Существующая сид-фраза не нужна. Есть фоновое приложение Windows, консольная версия Linux и панель Google Colab. Время поиска зависит от шаблона и производительности, совпадение не гарантируется к определённому сроку.</p><a href="./install.html">Скачать программу и посмотреть инструкции установки</a></section>
+    <footer><span><strong>GENERATOR TON USERNAME</strong> <i>/</i> Сделано для твоего адреса</span><button type="button" class="small-button" data-donate>Поддержать TON ♥</button><span>Независимый проект для TON.</span></footer>
+  </main>
+  <dialog id="info-dialog"><div class="dialog-head"><span>GENERATOR TON USERNAME / INFO</span><button id="close-dialog" aria-label="Закрыть">×</button></div><h2 id="dialog-title"></h2><div id="dialog-content"></div></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>

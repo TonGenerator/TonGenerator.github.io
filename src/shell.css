@@ -1,0 +1,19 @@
+/* Shared identity for the generator, desktop dashboard and installation guide. */
+header.topnav{height:auto;min-height:94px;max-width:1232px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 32px;border-bottom:1px solid #ffffff12}
+.topnav a.brand{display:flex;align-items:center;gap:11px;color:#f5f4ff;text-decoration:none;white-space:nowrap;letter-spacing:0;font-size:16px;font-weight:700}
+.topnav .brand-icon{color:#93d8ff;font-size:34px;line-height:1;text-shadow:0 0 25px #2fa7ea44}
+.topnav .brand-name{display:flex;flex-direction:column;gap:2px;margin:0;font:700 13px/1.5 "Segoe UI",Arial,sans-serif;letter-spacing:.4px}
+.topnav .brand-name small{margin:0;color:#778298;font:400 8px/1.5 "Segoe UI",Arial,sans-serif;letter-spacing:1.5px}
+.topnav .header-tools{display:flex;align-items:center;gap:12px}
+.topnav .header-donate{padding:8px 11px;border:1px solid #3c59774d;border-radius:9px;background:#2fa7ea0a;color:#a2d8f6;font:500 11px/1.4 "Segoe UI",Arial,sans-serif;white-space:nowrap;cursor:pointer}
+.topnav .language-switch{display:flex;padding:3px;border:1px solid #ffffff14;border-radius:20px;background:#0d0e16}
+.topnav .language-switch button{padding:6px 8px;border:0;border-radius:16px;background:transparent;color:#737f96;font:600 10px/1.2 "Segoe UI",Arial,sans-serif;cursor:pointer}
+.topnav .language-switch button[aria-pressed=true]{color:#e2edfc;background:#202432}
+.topnav .back{font:400 11px/1.5 "Segoe UI",Arial,sans-serif;white-space:nowrap;color:#94a7c0;text-decoration:none}
+.topnav :focus-visible{outline:2px solid #2fa7ea;outline-offset:4px}
+.donation-dialog{max-width:580px;width:90%;background:#0e1420;color:#dfecfc;border:1px solid #385374;border-radius:20px;padding:26px;font-family:"Segoe UI",Arial,sans-serif}
+.donation-dialog::backdrop{background:#000b}.donation-dialog code{display:block;overflow-wrap:anywhere;font:14px/1.8 Consolas,monospace;padding:14px;background:#09121c}
+.donation-dialog>div{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:20px}.donation-dialog button,.donation-dialog a{background:#1e3c56;border:1px solid #4f83a5;border-radius:8px;padding:10px 13px;color:#c8e9ff;cursor:pointer;text-decoration:none;font-size:12px}
+@media(max-width:1050px){header.topnav{gap:14px;padding:20px 24px}.topnav nav>*{padding:8px 9px}.topnav .brand-name{font-size:11px}.topnav .header-tools{gap:7px}}
+@media(max-width:850px){.topnav nav{display:none}header.topnav{min-height:80px}.topnav .brand-name{font-size:12px}}
+@media(max-width:540px){header.topnav{padding:16px;flex-wrap:wrap;gap:12px}.topnav a.brand{gap:8px}.topnav .brand-name{font-size:10px;letter-spacing:.1px}.topnav .brand-name small{font-size:7px}.topnav .brand-icon{font-size:28px}.topnav .header-tools{gap:7px;margin-left:auto}.topnav .header-donate{font-size:10px;padding:7px 8px}.topnav .language-switch button{padding:6px}.topnav .back{font-size:10px}}

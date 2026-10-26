@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Локальный подбор красивого TON-адреса по walletID. Только публичный ключ, без сид-фразы.">
+  <title>walletID lab — локальный TON-генератор</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="/" aria-label="walletID lab — главная"><img src="/favicon.svg" width="35" height="35" alt=""><span>walletID<span class="brand-light"> lab</span></span><span class="beta">LOCAL</span></a>
+    <nav aria-label="Основное меню"><span class="nav-current">Генератор</span><button id="how-button" class="nav-button">Как это работает <span>↗</span></button><button id="audit-button" class="nav-button">Проверка безопасности <span>↗</span></button></nav>
+    <div class="offline"><i></i> На твоём устройстве</div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div><div class="eyebrow"><span class="tiny-line"></span> TON ADDRESS STUDIO</div><h1>Красивый адрес.<br><span>Твоя сид-фраза остаётся твоей.</span></h1><p>Подбираем walletID к публичному ключу. Два хеша вместо генерации новых ключей.</p></div>
+      <div class="intro-aside"><span class="asterisk">✳</span><div><strong>2<sup>32</sup></strong><span>вариантов с одним ключом</span></div></div>
+    </section>
+
+    <div class="workspace">
+      <section class="settings panel" aria-labelledby="settings-title">
+        <div class="panel-title"><h2 id="settings-title">Параметры поиска</h2><span class="step">01 / SETUP</span></div>
+        <form id="search-form" novalidate autocomplete="off">
+          <fieldset id="settings-fields">
+            <div class="label-row"><label for="public-key">Публичный ключ <span class="muted">/ public key</span></label><button id="demo-button" type="button" class="text-button">Вставить демо ↗</button></div>
+            <textarea id="public-key" rows="2" placeholder="Вставь 64 HEX-символа публичного ключа" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="key-hint"></textarea>
+            <div id="key-hint" class="field-hint"><span>◇</span> Только public key. Не сид-фраза и не адрес UQ/EQ.</div>
+            <div id="demo-warning" class="demo-warning" hidden>Демо: публичный тестовый ключ. Не отправляй средства на его адреса.</div>
+
+            <div class="pattern-heading"><label for="pattern">Что ищем в адресе</label><span id="pattern-length" class="small-mono">4 СИМВОЛА</span></div>
+            <div class="pattern-field"><span id="pattern-marker">…</span><input id="pattern" value="cafe" maxlength="8" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="pattern-hint"><span class="pattern-cross">⌘</span></div>
+            <div class="pattern-bottom"><div class="segmented" role="group" aria-label="Позиция шаблона"><button type="button" data-position="suffix" aria-pressed="true">В конце</button><button type="button" data-position="prefix" aria-pressed="false">В начале</button></div><label class="check"><input id="case-sensitive" type="checkbox">Учитывать регистр</label></div>
+            <div class="presets"><span>Попробуй</span><button type="button" data-pattern="ton">ton</button><button type="button" data-pattern="777">777</button><button type="button" data-pattern="cafe">cafe</button><button type="button" data-pattern="8888">8888</button></div>
+            <p id="pattern-hint" class="field-hint pattern-hint">Совпадение в самом конце, включая контрольную сумму.</p>
+
+            <div class="divider"></div>
+            <div class="config-row"><span>Контракт</span><strong>Wallet V4R2 <span class="tag">uint32</span></strong></div>
+            <div class="config-row"><label for="address-format">Формат адреса</label><select id="address-format"><option value="uq">UQ · non-bounceable</option><option value="eq">EQ · bounceable</option></select></div>
+            <div class="config-row"><label for="network">Сеть</label><select id="network"><option value="mainnet">Mainnet</option><option value="testnet">Testnet</option></select></div>
+            <div class="config-row cpu-row"><label for="threads">Потоки CPU</label><div><input type="range" id="threads" min="1" max="8" value="2"><output id="thread-count" for="threads">2</output></div></div>
+            <div id="estimate" class="estimate"></div>
+          </fieldset>
+          <p id="form-error" class="form-error" role="alert" hidden></p>
+          <button id="start-button" class="primary-button" type="submit"><span id="start-label">Начать поиск</span><span id="start-icon">↗</span></button>
+          <div class="button-note"><span>◈</span> Сид-фраза не нужна. Вычисления — в браузере.</div>
+        </form>
+      </section>
+
+      <div class="output-column">
+        <section class="monitor" aria-labelledby="monitor-title">
+          <div class="monitor-top"><div class="monitor-caption"><span class="monitor-icon">⌁</span><h2 id="monitor-title">Поиск адреса</h2></div><span id="status" class="status"><i></i><span>Ожидание</span></span></div>
+          <div class="monitor-body">
+            <div class="preview-label"><span id="preview-label">ТВОЙ БУДУЩИЙ АДРЕС</span><span class="preview-network" id="preview-network">TON / MAINNET</span></div>
+            <div id="address-preview" class="address-preview"><span class="address-prefix">UQ</span><span class="placeholder-address">···· ···· ···· ····<br>···· ···· ···· </span><mark>cafe</mark></div>
+            <div class="search-track"><div id="track-fill"></div></div>
+            <div class="track-caption"><span id="scan-caption">Готов к запуску</span><span id="space-count">0 / 4 294 967 296</span></div>
+          </div>
+          <div class="metrics"><div><span>Проверено адресов</span><strong id="attempts">0<span> шт.</span></strong></div><div><span>Скорость перебора</span><strong id="speed">—<span> / сек</span></strong></div><div><span>Время поиска</span><strong id="elapsed">00:00<span> сек</span></strong></div></div>
+          <div class="monitor-footer"><span><i></i> SHA-256 × 2</span><span id="engine-info">WEB WORKERS · CPU</span><span>NO PRIVATE KEYS</span></div>
+        </section>
+
+        <section id="result-panel" class="result-panel panel" aria-labelledby="result-title" aria-live="polite">
+          <div class="panel-title"><h2 id="result-title">Результат</h2><span class="step">02 / EXPORT</span></div>
+          <div id="empty-result" class="empty-result"><div class="empty-icon">⌘</div><div><h3>Здесь появится твой адрес</h3><p>Вставь публичный ключ, выбери окончание<br>и запусти поиск подходящего walletID.</p></div><span class="empty-arrow">↗</span></div>
+          <div id="found-result" hidden>
+            <div id="result-demo" class="demo-warning" hidden>Демо-адрес. Приватный ключ общедоступен — не пополняй.</div>
+            <div class="result-success"><span>✓</span> Совпадение найдено <small>Проверено повторно</small></div>
+            <code id="result-address" class="result-address"></code>
+            <div class="result-id"><span>walletID</span><strong id="result-id"></strong><button id="copy-id" class="text-button" type="button">Копировать</button></div>
+            <div class="result-actions"><button id="copy-address" type="button">Копировать адрес ↗</button><button id="export-result" type="button">Скачать JSON ↓</button></div>
+            <p class="recovery-note">Сохрани walletID вместе с версией контракта. Для доступа нужен кошелёк с поддержкой нестандартного walletID: обычный импорт сид-фразы может открыть другой адрес. Проверь поддержку до пополнения.</p>
+          </div>
+        </section>
+
+        <div class="privacy-note"><span class="privacy-icon">◈</span><div><strong>Твои секреты остаются за пределами сайта.</strong><p>Нет поля для сид-фразы, аналитики, CDN или сетевых API.<br>Сервер доступен только на 127.0.0.1.</p></div><span class="privacy-check">✓</span></div>
+      </div>
+    </div>
+
+    <section class="explain-row"><div><span>01</span><p><strong>Один публичный ключ</strong>Без создания и ввода сид-фразы.</p></div><div><span>02</span><p><strong>Меняется только walletID</strong>Перебираем 32-битное число локально.</p></div><div><span>03</span><p><strong>Новый адрес, тот же ключ</strong>Каждый walletID — отдельный кошелёк.</p></div></section>
+    <footer><span>walletID lab <span class="footer-dot">/</span> Локальная мастерская TON</span><span>Твой компьютер. Твой ключ. Твой адрес.</span></footer>
+  </main>
+
+  <dialog id="info-dialog"><div class="dialog-head"><span class="eyebrow">WALLETID LAB / NOTES</span><button id="close-dialog" aria-label="Закрыть">×</button></div><h2 id="dialog-title"></h2><div id="dialog-content"></div></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>
