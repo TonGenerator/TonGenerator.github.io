@@ -18,5 +18,12 @@ for(const [file,pageTitle,copy] of [['index.html',title,description],['install.h
 await fs.writeFile('dist/robots.txt',`User-agent: *\nAllow: /\nSitemap: ${new URL('sitemap.xml',site).href}\n`,'utf8');
 await fs.writeFile('dist/sitemap.xml','<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+['','install.html'].map(file=>`<url><loc>${escape(new URL(file,site).href)}</loc></url>`).join('')+'</urlset>\n','utf8');
 await fs.writeFile('dist/.nojekyll','','utf8');
+// Search Console files uploaded to the repository root must also reach Pages.
+for(const entry of await fs.readdir('.',{withFileTypes:true})){
+ if(!entry.isFile()||!/^google[a-f0-9]+\.html$/i.test(entry.name))continue;
+ const content=await fs.readFile(entry.name,'utf8');
+ if(content.replace(/^\uFEFF/,'').trim()!==`google-site-verification: ${entry.name}`)throw Error('Invalid Google verification file: '+entry.name);
+ await fs.copyFile(entry.name,'dist/'+entry.name);
+}
 await fs.writeFile('dist/404.html',`<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="robots" content="noindex"><title>Страница не найдена</title><h1>Страница не найдена</h1><a href="${escape(site.href)}">Открыть генератор TON</a></html>\n`,'utf8');
 console.log('SEO ready: '+site.href);
